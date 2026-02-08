@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const span = document.createElement("span");
     span.textContent = taskText;
 
-    // Checkbox untuk tandai selesai
+    // Checkbox selesai
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.checked = done;
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       saveTasks();
     });
 
-    // Tombol edit dengan ikon ✎
+    // Tombol edit
     const editBtn = document.createElement("button");
     editBtn.textContent = "✎ Edit";
     editBtn.classList.add("editBtn");
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Tombol hapus dengan ikon 🗑
+    // Tombol hapus
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "🗑 Hapus";
     deleteBtn.classList.add("deleteBtn");
@@ -86,4 +86,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Filter tugas
   filterBtns.forEach(btn => {
-    btn.add
+    btn.addEventListener("click", () => {
+      const filter = btn.getAttribute("data-filter");
+      document.querySelectorAll("#taskList li").forEach(li => {
+        if (filter === "all") {
+          li.style.display = "
