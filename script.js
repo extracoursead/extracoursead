@@ -90,4 +90,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const filter = btn.getAttribute("data-filter");
       document.querySelectorAll("#taskList li").forEach(li => {
         if (filter === "all") {
-          li.style.display = "
+          li.style.display = "flex";
+        } else if (filter === "done") {
+          li.style.display = li.classList.contains("done") ? "flex" : "none";
+        } else if (filter === "todo") {
+          li.style.display = li.classList.contains("done") ? "none" : "flex";
+        }
+      });
+    });
+  });
+});
