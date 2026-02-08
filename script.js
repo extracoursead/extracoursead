@@ -1,8 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const toggleDark = document.getElementById("toggleDark");
   const addBtn = document.getElementById("addBtn");
   const taskInput = document.getElementById("taskInput");
   const taskList = document.getElementById("taskList");
   const filterBtns = document.querySelectorAll("#filters button");
+
+  // Dark mode toggle
+  toggleDark.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    toggleDark.textContent = document.body.classList.contains("dark") 
+      ? "☀️ Light Mode" 
+      : "🌙 Dark Mode";
+  });
 
   // Load tasks dari localStorage
   const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
@@ -44,12 +53,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Tombol hapus
+    // Tombol hapus dengan animasi fade-out
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Hapus";
     deleteBtn.addEventListener("click", () => {
-      taskList.removeChild(li);
-      saveTasks();
+      li.classList.add("removing");
+      setTimeout(() => {
+        taskList.removeChild(li);
+        saveTasks();
+      }, 400);
     });
 
     li.appendChild(checkbox);
