@@ -42,9 +42,10 @@ document.addEventListener("DOMContentLoaded", () => {
       saveTasks();
     });
 
-    // Tombol edit
+    // Tombol edit dengan ikon ✎
     const editBtn = document.createElement("button");
-    editBtn.textContent = "Edit";
+    editBtn.textContent = "✎ Edit";
+    editBtn.classList.add("editBtn");
     editBtn.addEventListener("click", () => {
       const newText = prompt("Edit tugas:", span.textContent);
       if (newText) {
@@ -53,9 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Tombol hapus dengan animasi fade-out
+    // Tombol hapus dengan ikon 🗑
     const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Hapus";
+    deleteBtn.textContent = "🗑 Hapus";
+    deleteBtn.classList.add("deleteBtn");
     deleteBtn.addEventListener("click", () => {
       li.classList.add("removing");
       setTimeout(() => {
@@ -84,17 +86,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Filter tugas
   filterBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const filter = btn.getAttribute("data-filter");
-      document.querySelectorAll("#taskList li").forEach(li => {
-        if (filter === "all") {
-          li.style.display = "flex";
-        } else if (filter === "done") {
-          li.style.display = li.classList.contains("done") ? "flex" : "none";
-        } else if (filter === "todo") {
-          li.style.display = li.classList.contains("done") ? "none" : "flex";
-        }
-      });
-    });
-  });
-});
+    btn.add
