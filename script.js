@@ -1,24 +1,88 @@
-const addBtn = document.getElementById("addBtn");
-const taskInput = document.getElementById("taskInput");
-const taskList = document.getElementById("taskList");
+document.addEventListener("DOMContentLoaded", () => {
+  const addBtn = document.getElementById("addBtn");
+  const taskInput = document.getElementById("taskInput");
+  const taskList = document.getElementById("taskList");
+  const filterBtns = document.querySelectorAll("#filters button");
 
-addBtn.addEventListener("click", () => {
-  const taskText = taskInput.value.trim();
-  if (taskText !== "") {
+  // Load tasks dari localStorage
+  const savedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  savedTasks.forEach(task => addTask(task.text, task.done));
+
+  addBtn.addEventListener("click", () => {
+    const taskText = taskInput.value.trim();
+    if (taskText !== "") {
+      addTask(taskText, false);
+      saveTasks();
+      taskInput.value = "";
+    }
+  });
+
+  function addTask(taskText, done) {
     const li = document.createElement("li");
+    if (done) li.classList.add("done");
+
     const span = document.createElement("span");
     span.textContent = taskText;
 
+    // Checkbox untuk tandai selesai
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.checked = done;
+    checkbox.addEventListener("change", () => {
+      li.classList.toggle("done");
+      saveTasks();
+    });
+
+    // Tombol edit
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.addEventListener("click", () => {
+      const newText = prompt("Edit tugas:", span.textContent);
+      if (newText) {
+        span.textContent = newText;
+        saveTasks();
+      }
+    });
+
+    // Tombol hapus
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Hapus";
     deleteBtn.addEventListener("click", () => {
       taskList.removeChild(li);
+      saveTasks();
     });
 
+    li.appendChild(checkbox);
     li.appendChild(span);
+    li.appendChild(editBtn);
     li.appendChild(deleteBtn);
     taskList.appendChild(li);
-
-    taskInput.value = "";
   }
+
+  function saveTasks() {
+    const tasks = [];
+    document.querySelectorAll("#taskList li").forEach(li => {
+      tasks.push({
+        text: li.querySelector("span").textContent,
+        done: li.classList.contains("done")
+      });
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
+  // Filter tugas
+  filterBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const filter = btn.getAttribute("data-filter");
+      document.querySelectorAll("#taskList li").forEach(li => {
+        if (filter === "all") {
+          li.style.display = "flex";
+        } else if (filter === "done") {
+          li.style.display = li.classList.contains("done") ? "flex" : "none";
+        } else if (filter === "todo") {
+          li.style.display = li.classList.contains("done") ? "none" : "flex";
+        }
+      });
+    });
+  });
 });
